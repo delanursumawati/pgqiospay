@@ -35,7 +35,7 @@ export async function middleware(request: NextRequest) {
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
-    pathname.includes(".")
+    /\.[^/]+$/.test(pathname)
   ) {
     return NextResponse.next();
   }

@@ -61,7 +61,9 @@ export function validateIpAddress(
  */
 function isIpInCidr(ip: string, cidr: string): boolean {
   const [range, bits] = cidr.split("/");
-  const mask = ~(2 ** (32 - parseInt(bits)) - 1);
+  const maskBits = parseInt(bits);
+  // Use unsigned right shift to ensure proper 32-bit integer handling
+  const mask = maskBits === 0 ? 0 : (~0 << (32 - maskBits)) >>> 0;
 
   const ipNum = ipToNumber(ip);
   const rangeNum = ipToNumber(range);
@@ -70,10 +72,12 @@ function isIpInCidr(ip: string, cidr: string): boolean {
 }
 
 /**
- * Convert an IPv4 address string to a 32-bit number
+ * Convert an IPv4 address string to a 32-bit unsigned number
  */
 function ipToNumber(ip: string): number {
-  return ip
-    .split(".")
-    .reduce((acc, octet) => (acc << 8) + parseInt(octet), 0);
+  return (
+    ip
+      .split(".")
+      .reduce((acc, octet) => ((acc << 8) | parseInt(octet)) >>> 0, 0) >>> 0
+  );
 }

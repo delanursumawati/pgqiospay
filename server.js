@@ -52,8 +52,8 @@ app.prepare().then(() => {
     }
 
     server.listen(socketPath, () => {
-      // Set socket permissions so Nginx can access it
-      fs.chmodSync(socketPath, "0666");
+      // Set socket permissions: 0660 for owner + group read/write
+      fs.chmodSync(socketPath, "0660");
       console.log(`> Server listening on unix socket: ${socketPath}`);
       console.log(`> Mode: ${dev ? "development" : "production"}`);
     });

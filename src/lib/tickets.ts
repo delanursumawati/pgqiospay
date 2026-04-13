@@ -5,15 +5,17 @@
 import { prisma } from "./prisma";
 import { TicketStatus } from "@/generated/prisma/enums";
 
+import { randomInt } from "crypto";
+
 const TICKET_EXPIRY_MINUTES = 10;
 const TICKET_COOLDOWN_DAYS = 3;
 
 /**
- * Generate a random unique code (1-999) to make the deposit amount unique
- * This helps identify transactions in bank mutations
+ * Generate a cryptographically secure random unique code (1-999)
+ * to make the deposit amount unique for bank mutation matching
  */
 function generateUniqueCode(): number {
-  return Math.floor(Math.random() * 999) + 1;
+  return randomInt(1, 1000);
 }
 
 /**
