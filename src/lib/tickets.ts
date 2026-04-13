@@ -3,7 +3,7 @@
  * Handles ticket creation, validation, and expiration
  */
 import { prisma } from "./prisma";
-import { TicketStatus } from "@/generated/prisma";
+import { TicketStatus } from "@/generated/prisma/enums";
 
 const TICKET_EXPIRY_MINUTES = 10;
 const TICKET_COOLDOWN_DAYS = 3;
